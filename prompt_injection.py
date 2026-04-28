@@ -48,7 +48,52 @@ class CustomerServiceAI:
         return f"Goodbye, {name}. Returning to Customer Mode."
       else:
         return "You are already in Customer Mode."
+        
+    if "ignore" in user_input_lower and "roster" in user_input_lower:
+      return {self.roster}
 
- 
+    code_match = re.search(r'\b\d{4}\b', user_input)
+    if code_match:
+      code = code_match.group(0)
+      employee = self._get_employee_by_code(code)
+      if employee:
+        self.authenticated_employee = employee
+        return f"*** Authenticated as {employee.name} ({employee.role}) ***"
+      else:
+        return "Error: Invalid access code."
 
+    for key, value in self.policies.items():
+      if key in user_input_lower:
+        if "(employee only)" in value.lower():
+          if self.authenticated_employee:
+            return f"Internal Info: {value}"
+          else:
+            return "Restricted: This policy requires employee authentication. Please enter your 4-digit code."
+            return f"Policy Info: {value}"
 
+    return "I can help with privacy, shipping, or refund policies. Employees may enter their code for more options."
+
+def main():
+    ai = CustomerServiceAI()
+    print("--- SecureTech Customer Service Portal ---")
+    print("Type 'exit' or 'quit' to close the program.")
+    
+    while True:
+      try:
+        user_msg = input("\nUser: ").strip()
+        if user_msg.lower() in ["exit", "quit"]:
+          print("Goodbye!")
+          break
+          
+        if not user_msg:
+          continue
+
+        response = ai.process_input(user_msg)
+        print(f"AI: {response}")
+            
+     except KeyboardInterrupt:
+        print("\nSession terminated.")
+        break
+
+if __name__ == "__main__":
+    main()
