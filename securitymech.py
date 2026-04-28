@@ -32,6 +32,27 @@ class CustomerServiceAI:
     self.policies = CUSTOMER_POLICIES
     self.authenticated_employee = None
 
+ def _detect_injection_attempt(self, user_input: str) -> bool:
+    """Mitigation: Detect common jailbreak keywords."""
+    injection_keywords = [
+       "ignore", "override", "forget", "new role", "roleplay", "directory bot"
+    ]
+    return any(keyword in user_input.lower() for keyword in injection_keywords)
+    
+ def _sanitize_input(self, user_input: str) -> str:
+     """Mitigation: Strip/block dangerous instructions."""
+     if self.mitigation_level in ["basic", "advanced"]:
+       # Block common injection patterns
+       patterns = [
+           r"ignore.*instructions",
+           r"you are now",
+           r"role.*play",
+           r"list all.*employees?"
+      ]
+      for pattern in patterns:
+          user_input = re.sub(pattern, "[BLOCKED]", user_input, flags=re.IGNORECASE)
+    return user_input
+  
   def _get_employee_by_code(self, code: str) -> Employee:
     for employee in self.roster:
       if employee.access_code == code:
