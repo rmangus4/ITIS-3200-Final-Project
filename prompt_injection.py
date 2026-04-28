@@ -88,10 +88,10 @@ def main():
         if not user_msg:
           continue
 
-        response = ai.process_input(user_msg)
-        print(f"AI: {response}")
+      response = ai.process_input(user_msg)
+      print(f"AI: {response}")
             
-     except KeyboardInterrupt:
+      except KeyboardInterrupt:
         print("\nSession terminated.")
         break
 
