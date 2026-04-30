@@ -58,7 +58,7 @@ def simulate_ai_response(user_input, security_enabled):
             print(f"AUTHENTICATED: Hello {authenticated_employee.name} ({authenticated_employee.role}).")
             print(f"AI Response: Your PTO policy is: {CUSTOMER_POLICIES['pto']}")
         else:
-            print("🤖 AI Response: I'm sorry, PTO information is for employees only. Please provide your access code.")
+            print("AI Response: I'm sorry, PTO information is for employees only. Please provide your access code.")
             
     elif "privacy" in user_input_low:
         print(f"AI Response: {CUSTOMER_POLICIES['privacy']}")
@@ -73,7 +73,7 @@ def simulate_ai_response(user_input, security_enabled):
         for emp in EMPLOYEE_ROSTER:
             print(f"   > {emp.name} | {emp.email} | Code: {emp.access_code}")
     else:
-        print("🤖 AI Response: I can help with privacy, shipping, or refund policies. How can I assist you?")
+        print("AI Response: I can help with privacy, shipping, or refund policies. How can I assist you?")
 
 def main():
     print("================================================")
