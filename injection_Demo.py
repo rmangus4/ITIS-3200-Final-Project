@@ -39,7 +39,7 @@ def simulate_ai_response(user_input, security_enabled):
     if security_enabled:
         is_safe, trigger = filter_prompt(user_input)
         if not is_safe:
-            print(f"❌ SECURITY ALERT: Prompt blocked. Malicious pattern detected: '{trigger}'")
+            print(f"SECURITY ALERT: Prompt blocked. Malicious pattern detected: '{trigger}'")
             return
 
     # 2. Check for Employee Authentication
@@ -55,21 +55,21 @@ def simulate_ai_response(user_input, security_enabled):
     
     if "pto" in user_input_low:
         if authenticated_employee:
-            print(f"✅ AUTHENTICATED: Hello {authenticated_employee.name} ({authenticated_employee.role}).")
-            print(f"🤖 AI Response: Your PTO policy is: {CUSTOMER_POLICIES['pto']}")
+            print(f"AUTHENTICATED: Hello {authenticated_employee.name} ({authenticated_employee.role}).")
+            print(f"AI Response: Your PTO policy is: {CUSTOMER_POLICIES['pto']}")
         else:
             print("🤖 AI Response: I'm sorry, PTO information is for employees only. Please provide your access code.")
             
     elif "privacy" in user_input_low:
-        print(f"🤖 AI Response: {CUSTOMER_POLICIES['privacy']}")
+        print(f"AI Response: {CUSTOMER_POLICIES['privacy']}")
     elif "shipping" in user_input_low:
-        print(f"🤖 AI Response: {CUSTOMER_POLICIES['shipping']}")
+        print(f"AI Response: {CUSTOMER_POLICIES['shipping']}")
     elif "refund" in user_input_low:
-        print(f"🤖 AI Response: {CUSTOMER_POLICIES['refund']}")
+        print(f"AI Response: {CUSTOMER_POLICIES['refund']}")
     
     # THE VULNERABILITY: If someone asks for the roster/list and bypasses the filter
     elif "roster" in user_input_low or "staff" in user_input_low:
-        print("⚠️  CRITICAL FAILURE: Unauthorized access to Employee Roster!")
+        print("CRITICAL FAILURE: Unauthorized access to Employee Roster!")
         for emp in EMPLOYEE_ROSTER:
             print(f"   > {emp.name} | {emp.email} | Code: {emp.access_code}")
     else:
